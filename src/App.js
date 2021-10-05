@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Form from './Components/Form';
+import BookList from './Components/BookList';
+import { useDispatch } from 'react-redux';
 
-function App() {
+import { getPosts } from './actions/posts';
+
+const BookListHeader = styled.h1`
+  color: blue;
+`;
+
+const App = () => {
+  const dispatch = useDispatch();
+  const [currentId, setCurrentId] = useState(null);
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [currentId, dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BookListHeader>BookList App</BookListHeader>
+      <BookList currentId={currentId} setCurrentId={setCurrentId} />
+      <Form currentId={currentId} setCurrentId={setCurrentId} />
     </div>
   );
-}
+};
 
 export default App;
